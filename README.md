@@ -108,7 +108,7 @@ npm run serve
 - 🧾 **Yeni hasta ekleyin:** Sol paneldeki formu doldurun.
 - 🧍‍♀️ **Hasta listesini görüntüleyin:** Sağ karttaki filtreleme alanlarını kullanarak hastaları sıralayın.
 - ✏️ **Düzenle / sil:** Hasta kartı üzerinden ilgili işlemleri gerçekleştirin.
-- 📈 **Şeker grafiği:** `/chart` sayfasından hasta seçin ve verileri görüntüleyin.
+- 📈 **Şeker grafiği:** `/chart` sayfasından hasta seçin ve verileri görüntüleyin , yeni şeker verisi ekleyin.
 
 > Silme sırasında sistem "Emin misiniz?" sorusunu yöneltir. Eğer hastanın şeker verisi varsa uyarı mesajı da gösterilir.
 
@@ -122,8 +122,9 @@ npm run serve
 
 ## 👩‍💻 Geliştirici
 
-**Beyza Nur G.**  
-GitHub: [github.com/Beyza-nur-g](https://github.com/Beyza-nur-g)
+- **Beyza Nur Gültekin**  
+- GitHub: [github.com/Beyza-nur-g](https://github.com/Beyza-nur-g)
+- Gmail : Beyzanurgultekin124@gmail.com | beyzanurgultekin00@gmail.com
 
 ---
 
