@@ -5,6 +5,7 @@
       <router-link to="/chart" class="main-nav-link"
         >📈 Şeker Ölçümü</router-link
       >
+      <router-link to="/login" class="main-nav-link">🔐 Giriş</router-link>
     </nav>
     <router-view />
   </div>

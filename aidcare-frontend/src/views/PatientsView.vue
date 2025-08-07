@@ -4,6 +4,7 @@
     <div class="form-card">
       <h2>📝 Yeni Hasta Ekle</h2>
       <form @submit.prevent="addPatient" class="patient-form">
+        <input v-model="newPatient.tc" placeholder="TC Kimlik No" required />
         <input v-model="newPatient.name" placeholder="İsim" required />
         <input v-model="newPatient.birth_date" type="date" required />
         <select v-model="newPatient.gender" required>
@@ -13,7 +14,7 @@
           <option value="Diğer">Diğer</option>
         </select>
         <button type="submit">
-          {{ editingId ? "💾 Güncelle" : "➕ Kaydet" }}
+          {{ editingId ? "📂 Güncelle" : "➕ Kaydet" }}
         </button>
       </form>
     </div>
@@ -40,6 +41,7 @@
           class="patient-card"
         >
           <h3><strong>ID:</strong> {{ patient.id }}</h3>
+          <p><strong>TC:</strong> {{ patient.tc }}</p>
           <p><strong>İsim:</strong> {{ patient.name }}</p>
           <p>
             <strong>Doğum Tarihi:</strong> {{ formatDate(patient.birth_date) }}
@@ -66,7 +68,7 @@ export default {
   name: "PatientsView",
   data() {
     return {
-      newPatient: { name: "", birth_date: "", gender: "" },
+      newPatient: { tc: "", name: "", birth_date: "", gender: "" },
       patients: [],
       editingId: null,
       searchTerm: "",
@@ -84,10 +86,9 @@ export default {
             this.selectedGender === "" || p.gender === this.selectedGender;
           return nameMatch && genderMatch;
         })
-        .sort((a, b) => a.id - b.id); // ID’ye göre artan sıralama
+        .sort((a, b) => a.id - b.id);
     },
   },
-
   methods: {
     async fetchPatients() {
       const response = await axios.get("http://localhost:3001/api/patients");
@@ -100,12 +101,11 @@ export default {
       const method = this.editingId ? "put" : "post";
 
       await axios[method](url, this.newPatient);
-      this.newPatient = { name: "", birth_date: "", gender: "" };
+      this.newPatient = { tc: "", name: "", birth_date: "", gender: "" };
       this.editingId = null;
       this.fetchPatients();
     },
     async deletePatient(id) {
-      // Şeker verisi kontrolü
       const glucoseRes = await axios.get(
         `http://localhost:3001/api/patients/${id}/glucose`
       );
@@ -121,12 +121,10 @@ export default {
       if (!confirmed) return;
 
       try {
-        // önce glukoz verilerini sil
         if (hasGlucoseData) {
           await axios.delete(`http://localhost:3002/patients/${id}/glucose`);
         }
 
-        // ardından hasta verisini sil
         await axios.delete(`http://localhost:3002/patients/${id}`);
 
         this.fetchPatients();
@@ -136,6 +134,7 @@ export default {
     },
     editPatient(patient) {
       this.newPatient = {
+        tc: patient.tc,
         name: patient.name,
         gender: patient.gender,
         birth_date: new Date(patient.birth_date).toISOString().split("T")[0],

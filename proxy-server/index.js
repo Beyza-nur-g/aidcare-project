@@ -5,8 +5,9 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+const redis = new Redis(); 
 
-const redis = new Redis(); // localhost:6379 default
 
 // GET /api/patients
 app.get('/api/patients', async (req, res) => {
@@ -31,18 +32,18 @@ app.get('/api/patients', async (req, res) => {
 // GET /api/patients/:id/glucose
 app.get('/api/patients/:id/glucose', async (req, res) => {
   const { id } = req.params;
-  const cacheKey = `glucose_${id}`;
+  const cacheKey = `sugar-levels:patientId=${id}`;
   const cached = await redis.get(cacheKey);
 
   if (cached) {
-    console.log(`Cache hit: glucose_${id}`);
+    console.log(`Cache hit: sugar-levels:patientId=${id}`);
     return res.json(JSON.parse(cached));
   }
 
   try {
     const response = await axios.get(`http://localhost:3002/patients/${id}/glucose`);
     await redis.setex(cacheKey,60, JSON.stringify(response.data));
-    console.log(`Cache miss: glucose_${id}`);
+    console.log(`Cache miss: sugar-levels:patientId=${id}`);
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -69,7 +70,58 @@ app.post('/api/patients/:id/glucose', express.json(), async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+// POST /api/patients/login → TC ile hasta girişi (cache gerekmez)
+app.post('/api/patients/login', express.json(), async (req, res) => {
+  try {
+    const response = await axios.post('http://localhost:3002/patients/login', req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('POST /api/patients/login proxy error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/api/patients/:id/appointments", async (req, res) => {
+  const { id } = req.params;
+  const cacheKey = `appointments:${id}`;
 
+  try {
+    const cached = await redis.get(cacheKey);
+    if (cached) return res.json(JSON.parse(cached));
+
+    const response = await axios.get(
+      `http://localhost:3002/api/patients/${id}/appointments`
+    );
+
+    await redis.set(cacheKey, JSON.stringify(response.data), "EX", 60);
+    res.json(response.data);
+  } catch (err) {
+    console.error("Proxy appointments error:", err);
+    res.status(500).json({ error: "Proxy sunucu hatası" });
+  }
+});
+
+// AidCare mesajlarını getirme
+app.get("/api/patients/:id/messages", async (req, res) => {
+  try {
+    const response = await axios.get(`http://localhost:3002/patients/${req.params.id}/messages`);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "Mesajlar alınamadı" });
+  }
+});
+
+// AidCare mesajı gönderme
+app.post("/api/patients/:id/messages", async (req, res) => {
+  const { id } = req.params;
+  const { message } = req.body;
+  try {
+    const response = await axios.post(`http://localhost:3002/patients/${id}/messages`, { message });
+    res.json(response.data);
+  } catch (err) {
+    console.error("Proxy mesaj gönderme hatası:", err.message);
+    res.status(500).json({ error: "Mesaj gönderilemedi" });
+  }
+});
 
 app.listen(3001, () => {
   console.log('Proxy server running on port 3001');

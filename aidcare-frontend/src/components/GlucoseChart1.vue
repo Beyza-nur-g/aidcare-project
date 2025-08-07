@@ -16,7 +16,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import axios from "axios";
 
 ChartJS.register(
   LineElement,
@@ -31,35 +30,17 @@ ChartJS.register(
 export default {
   name: "GlucoseChart",
   components: { Line },
-  props: ["patientId"],
-  data() {
-    return {
-      measurements: [],
-      loaded: false,
-    };
-  },
-  async mounted() {
-    if (this.patientId) {
-      try {
-        const response = await axios.get(
-          `http://localhost:3001/api/patients/${this.patientId}/glucose`
-        );
-        this.measurements = response.data;
-        this.loaded = true;
-      } catch (err) {
-        console.error("Veri alınırken hata oluştu:", err);
-      }
-    }
-  },
+  props: ["measurements"],
   computed: {
     chartData() {
-      const safe = this.measurements || [];
       return {
-        labels: safe.map((m) => new Date(m.measured_at).toLocaleString()),
+        labels: this.measurements.map((m) =>
+          new Date(m.measured_at).toLocaleString()
+        ),
         datasets: [
           {
             label: "Kan Şekeri (mg/dL)",
-            data: safe.map((m) => m.sugar_value),
+            data: this.measurements.map((m) => m.sugar_value),
             fill: false,
             borderColor: "blue",
             tension: 0.3,

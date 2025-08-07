@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import PatientsView from "../views/PatientsView.vue";
-import GlucoseChartView from "../views/GlucoseChartView.vue";
+import PatientsView from "@/views/PatientsView.vue";
+import GlucoseChartView from "@/views/GlucoseChartView.vue";
+import LoginView from "@/views/LoginView.vue";
+import DashboardView from "@/views/PatientDashboardView.vue"; // 📌 Yeni Dashboard
 
 const routes = [
   {
@@ -10,8 +12,18 @@ const routes = [
   },
   {
     path: "/chart",
-    name: "GlucoseChart",
+    name: "Chart",
     component: GlucoseChartView,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: LoginView,
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: DashboardView,
   },
 ];
 

@@ -85,7 +85,7 @@
 
 <script>
 import axios from "axios";
-import GlucoseChart from "../components/GlucoseChart.vue";
+import GlucoseChart from "../components/GlucoseChart1.vue";
 
 export default {
   name: "GlucoseChartView",
