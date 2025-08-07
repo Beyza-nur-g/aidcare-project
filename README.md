@@ -11,7 +11,10 @@ AIDCARE, diyabetli bireylerin kendi kan şekeri düzeylerini izleyebildikleri, h
 - 📊 Kan şekeri ölçümlerini çizgi grafik olarak gösterme (Vue Chart.js)
 - 📆 Tarih aralığına göre filtreleme
 - 🔁 Redis cache entegrasyonu ile proxy performansı
-- 📉 Referans dışı ölçüm değerlerini renklendirme
+- 💬 AidCare'e soru sorabilme ve sistem yanıtlarını görebilme
+- 🔔 Hatırlatıcılar (günlük su içme, ilaç saati vb.) kartı
+- 🧾 Hasta panelinde reçete bilgisi ve sağlık durumu özeti
+- 🧍‍♀️ Responsive hasta paneli: grafik, takvim, mesajlaşma, hatırlatma, etkinlik ve hasta bilgileri bir arada
 
 ---
 
@@ -52,12 +55,15 @@ docker-compose up -d
 
 ### 2️⃣ Veritabanı tablolarını terminal üzerinden oluştur
 
+### 2️⃣ Veritabanı tablolarını terminal üzerinden oluştur
+
 ```sql
 CREATE TABLE patients (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
   birth_date DATE NOT NULL,
-  gender TEXT NOT NULL
+  gender TEXT NOT NULL,
+  tc TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE sugar_levels (
@@ -66,7 +72,23 @@ CREATE TABLE sugar_levels (
   sugar_value INTEGER NOT NULL,
   measured_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  patient_id INTEGER,
+  message TEXT,
+  reply TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE appointments (
+  id SERIAL PRIMARY KEY,
+  patient_id INTEGER REFERENCES patients(id) ON DELETE CASCADE,
+  appointment_time TIMESTAMP NOT NULL,
+  description TEXT
+);
 ```
+
 
 > pgAdmin zorunlu değildir. Terminal ile işlem yapılabilir.
 
@@ -109,8 +131,11 @@ npm run serve
 - 🧍‍♀️ **Hasta listesini görüntüleyin:** Sağ karttaki filtreleme alanlarını kullanarak hastaları sıralayın.
 - ✏️ **Düzenle / sil:** Hasta kartı üzerinden ilgili işlemleri gerçekleştirin.
 - 📈 **Şeker grafiği:** `/chart` sayfasından hasta seçin ve verileri görüntüleyin , yeni şeker verisi ekleyin.
+- 📬 **AidCare’e soru sorun:** Mesajlaşma kartından soru gönderin, sistem yanıtlarını alın.
+- 🔔 **Hatırlatmalar:** Günlük sağlık önerilerini kart üzerinde baloncuklar şeklinde görüntüleyin.
+- 🧾 **Reçete ve sağlık özeti:** Hasta panelinde iki mini kart olarak görüntülenir.
+- 📆 **Randevu takvimi:** Tarihlere göre randevular ve ölçüm geçmişi takvim üzerinde gösterilir.
 
-> Silme sırasında sistem "Emin misiniz?" sorusunu yöneltir. Eğer hastanın şeker verisi varsa uyarı mesajı da gösterilir.
 
 ---
 
