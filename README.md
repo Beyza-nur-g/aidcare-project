@@ -8,17 +8,7 @@ AIDCARE, diyabetli bireylerin kendi kan şekeri düzeylerini izleyebildikleri, h
 
 👉[https://drive.google.com/file/d/13mzFVPtv-1xWmqWxHRBuKJcaFLRQit1a/view?usp=sharing](https://drive.google.com/file/d/13mzFVPtv-1xWmqWxHRBuKJcaFLRQit1a/view?usp=sharing)
 
----
 
-## 📸 Görseller
-
-### 🧾 Hasta Paneli – Genel Görünüm
-
-<img src="./Ekran görüntüsü 2025-08-08 022607.png" alt="Hasta Paneli" width="100%"/>
-
-### 📆 Takvim, Etkinlikler ve Hatırlatmalar
-
-<img src="./Ekran görüntüsü 2025-08-08 022621.png" alt="Takvim ve Hatırlatmalar" width="100%"/>
 
 ---
 ## 🚀 Temel Özellikler
