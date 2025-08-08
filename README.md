@@ -3,7 +3,24 @@
 AIDCARE, diyabetli bireylerin kendi kan şekeri düzeylerini izleyebildikleri, hasta verilerini yönetebildikleri bir öz yönetim platformudur. Bu proje Vue.js tabanlı frontend, Express.js tabanlı cache destekli proxy sunucusu, Node.js + PostgreSQL backend'i ve Docker altyapısı ile geliştirilmiştir.
 
 ---
+🎬 **Tanıtım Videosu:**  
+👉 [https://drive.google.com/file/d/1aDDF8W42p14V2MA04uSUoj9KCvxJnywW/view?usp=sharing](https://drive.google.com/file/d/1aDDF8W42p14V2MA04uSUoj9KCvxJnywW/view?usp=sharing)
 
+👉[https://drive.google.com/file/d/13mzFVPtv-1xWmqWxHRBuKJcaFLRQit1a/view?usp=sharing](https://drive.google.com/file/d/13mzFVPtv-1xWmqWxHRBuKJcaFLRQit1a/view?usp=sharing)
+
+---
+
+## 📸 Görseller
+
+### 🧾 Hasta Paneli – Genel Görünüm
+
+<img src="./Ekran görüntüsü 2025-08-08 022607.png" alt="Hasta Paneli" width="100%"/>
+
+### 📆 Takvim, Etkinlikler ve Hatırlatmalar
+
+<img src="./Ekran görüntüsü 2025-08-08 022621.png" alt="Takvim ve Hatırlatmalar" width="100%"/>
+
+---
 ## 🚀 Temel Özellikler
 
 - 📝 Yeni hasta ekleme / düzenleme / silme
